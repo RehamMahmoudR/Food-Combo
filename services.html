@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Services</title>
+    <link rel="icon" type="image/x-icon" href="images/file.png">
+    <link rel="stylesheet" type="text/css" target="_blank" href="services.css" />
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet"/>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<nav>
+    <div class="logo">
+        <a href="index.html"><img src="./images/Food Combo (1).png" alt="logo" /></a>
+    </div>
+    <ul>
+        <li>
+            <a href="index.html">Home</a>
+        </li>
+        <li>
+            <a href="services.html">Services</a>
+        </li>
+        <li>
+            <a href="contact.html">Contact Us</a>
+        </li>
+        <li class="get-started">
+            <a href="login.html">GET STARTED</a>
+        </li>
+    </ul>
+    <div class="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+    </div>
+</nav>
+<div class="menubar">
+    <ul>
+        <li>
+            <a href="index.html">Home</a>
+        </li>
+        <li>
+            <a href="services.html">Services</a>
+        </li>
+        <li>
+            <a href="#">Blog</a>
+        </li>
+        <li>
+            <a href="contact.html">Contact Us</a>
+        </li>
+        <li class="get-started">
+            <a href="login.html">GET STARTED</a>
+        </li>
+    </ul>
+</div>
+<div class="container">
+    <div class="title">
+        <p class="main">Make delicious food<br>and feel experience like a<br>professional chef.</p>
+        <p class="mini-p">It's time to make delicious food with the best recipes and experience<br>like a professional chef.</p>
+        <div class="input-group">
+            <div class="form-outline" data-mdb-input-init>
+                <input type="search" id="search" class="form-control" />
+                <label class="form-label" for="search">Type your favorite recipe here</label>
+            </div>
+            <button type="button" class="btn btn-primary" data-mdb-ripple-init onclick="getRecipe(document.getElementById('search').value)">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+    <div class="image">
+        <img src="images/service(1).jpg">
+    </div>
+</div>
+<div class="recipe-container"></div>
+<a href="" class="source-link"></a>
+
+<script>
+    function getSource(id) {
+        $.ajax({
+            url: "https://api.spoonacular.com/recipes/" + id + "/information?apiKey=c1402349bbff4c5a8607d1afcb7d2bde",
+            success: function(res) {
+                document.querySelector(".source-link").innerHTML = res.sourceUrl;
+                document.querySelector(".source-link").href = res.sourceUrl;
+            }
+        });
+    }
+
+    function getRecipe(q) {
+        $.ajax({
+            url: "https://api.spoonacular.com/recipes/search?apiKey=c1402349bbff4c5a8607d1afcb7d2bde&number=1&query=" + q,
+            success: function(res) {
+                document.querySelector(".recipe-container").innerHTML = "<div><h1>" + res.results[0].title + "</h1><br>" +
+                    "<img src='" + res.baseUri + res.results[0].image + "'/><br><p>Ready in " +
+                    res.results[0].readyInMinutes + " minutes</p></div>";
+                getSource(res.results[0].id);
+            }
+        });
+    }
+</script>
+</body>
+</html>
